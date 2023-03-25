@@ -47,31 +47,31 @@ public class SimulacionJFrame extends javax.swing.JFrame {
     
     //FUNCIONES PARA LOS CONTADORES
     public static synchronized void incInventario(){
-       ContadorInventario=ContadorInventario+1;
+       ContadorInventario++;
     }
     public static synchronized void decInventario(){
-        ContadorInventario=ContadorInventario-1;
+        ContadorInventario--;
     }
     public static synchronized void incProduccion(){
-       ContadorProduccion=ContadorProduccion+1;
+       ContadorProduccion++;
     }
     public static synchronized void decProduccion(){
-        ContadorProduccion=ContadorProduccion-1;
+        ContadorProduccion--;
     }
     public static synchronized void incEmpaquetado(){
-       ContadorEmpaquetado=ContadorEmpaquetado+1;
+       ContadorEmpaquetado++;
     }
     public static synchronized void decEmpaquetado(){
-        ContadorEmpaquetado=ContadorEmpaquetado-1;
+        ContadorEmpaquetado--;
     }
     public static synchronized void incSalida(){
-       ContadorSalida=ContadorSalida+1;
+       ContadorSalida++;
     }
     public static synchronized void decSalida(){
-        ContadorSalida=ContadorSalida-1;
+        ContadorSalida--;
     }
     public static synchronized void incFinal(){
-       ContadorFinal=ContadorFinal+1;
+       ContadorFinal++;
     }
     //FUNCIONES PARA PINTAR EL CIRCULO
     public class PintarCiculoInventario{
@@ -210,8 +210,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
     //Hilo Produccion
     public class HiloProduccion implements Runnable{       
         public boolean ValidarHilo2=true;
-        JLabel contadorInventarioLBL, contadorProduccionLBL;
-        JPanel Panel1, Panel2;
+        JLabel contadorInventarioLBL, contadorProduccionLBL; JPanel Panel1, Panel2;
         public HiloProduccion(JLabel contadorInventarioLBL, JLabel contadorProduccionLBL, JPanel Panel1, JPanel Panel2){
             this.contadorInventarioLBL = contadorInventarioLBL;
             this.contadorProduccionLBL = contadorProduccionLBL;
@@ -220,8 +219,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         }
         @Override
         public void run() {
-            int x=6;
-            int y=40;
+            int x=6; int y=40;
             //Tiempo Para Pasar de Inventario a Produccion  
             while(ValidarHilo2){ 
                 try {
@@ -230,10 +228,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
                     Logger.getLogger(SimulacionJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println("Trabaja Hilo Produccion");
-                if(x>=300){
-                    y=y+30;
-                    x=6;
-                }
+                if(x>=300){y=y+30;x=6;}
                 incProduccion();
                 PintarCiculoProduccion CirculoProduccion = new PintarCiculoProduccion(Panel1.getGraphics(),x,y);
                 contadorProduccionLBL.setText(String.valueOf(ContadorProduccion));
@@ -823,22 +818,18 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         sb.append("<td>").append("Costo Inventario").append("</td>");
         sb.append("<td>").append("Q. "+costoInventario+".00").append("</td>");
         sb.append("</tr>");
-        
         sb.append("<tr>");
         sb.append("<td>").append("Costo Producción").append("</td>");
         sb.append("<td>").append("Q. "+costoProduccion+".00").append("</td>");
-        sb.append("</tr>");
-        
+        sb.append("</tr>");  
         sb.append("<tr>");
         sb.append("<td>").append("Costo Empaquetado").append("</td>");
         sb.append("<td>").append("Q. "+costoEmpaquetado+".00").append("</td>");
-        sb.append("</tr>");
-        
+        sb.append("</tr>");     
         sb.append("<tr>");
         sb.append("<td>").append("Costo Salida").append("</td>");
         sb.append("<td>").append("Q. "+costoSalida+".00").append("</td>");
-        sb.append("</tr>");
-        
+        sb.append("</tr>"); 
         sb.append("<tr>");
         sb.append("<td>").append("Costo Total").append("</td>");
         sb.append("<td>").append("Q. "+Total+".00").append("</td>");

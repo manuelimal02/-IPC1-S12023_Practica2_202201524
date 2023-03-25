@@ -14,7 +14,7 @@ public class MenuInicialJFrame extends javax.swing.JFrame {
     public boolean esNumTiempo(String cadena){
             int cadenaNum=0;
             cadenaNum=Integer.parseInt(cadena);
-            if(cadenaNum>1){
+            if(cadenaNum>4){
                 return true;
             }else{
                 return false;
@@ -250,7 +250,7 @@ public class MenuInicialJFrame extends javax.swing.JFrame {
             menuSimulacion.setVisible(true);
             dispose();
         }else{
-            JOptionPane.showMessageDialog(null, "Verificar contenido de los campos.\n" +"El Tiempo de Simulación debe ser mayor a 1.\n" +"El Costo de Simulación debe ser Mayor a 0.\n" +"Inténtalo de nuevo. ", "MONKEY", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(null, "Verificar contenido de los campos.\n" +"El Tiempo de Simulación debe ser mayor a 4.\n" +"El Costo de Simulación debe ser Mayor a 0.\n" +"Inténtalo de nuevo. ", "MONKEY", JOptionPane.ERROR_MESSAGE); 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
