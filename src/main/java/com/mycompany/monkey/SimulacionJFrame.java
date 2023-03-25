@@ -18,6 +18,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
     
     public int ContadorIncial;
     static int ContadorInventario=0, ContadorProduccion=0, ContadorEmpaquetado=0, ContadorSalida=0, ContadorFinal=0;
+
     public int TiempoProduccion;
     public int TiempoEmpaquetado;
     public int TiempoSalida;
@@ -107,6 +108,8 @@ public class SimulacionJFrame extends javax.swing.JFrame {
             g.fillOval(x, y, 20, 20);
         }
     }
+    //FUNCIONES PARA CAMBIAR DE TIEMPO
+    
     //FUNCIONES PARA LOS HILOS
     //Hilo Temporizador
     public class HiloTemporizador implements Runnable{
@@ -222,7 +225,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
             //Tiempo Para Pasar de Inventario a Produccion  
             while(ValidarHilo2){ 
                 try {
-                    Thread.sleep(TiempoProduccion);
+                    Thread.sleep(TiempoProduccion*1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SimulacionJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -263,7 +266,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
             //Tiempo Para Pasar de Produccion a Empaquetado
             while(ValidarHilo3){ 
                 try {
-                    Thread.sleep(TiempoEmpaquetado);
+                    Thread.sleep(TiempoEmpaquetado*1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SimulacionJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -277,7 +280,8 @@ public class SimulacionJFrame extends javax.swing.JFrame {
                 contadorEmpaquetadoLBL.setText(String.valueOf(ContadorEmpaquetado));     
                 decProduccion();
                 DespintarCiculo Circulo = new DespintarCiculo(Panel2.getGraphics(),x,y);
-                contadorProduccionLBL.setText(String.valueOf(ContadorProduccion)); 
+                contadorProduccionLBL.setText(String.valueOf(ContadorProduccion));
+                CambioTiempoEmpaquetado();
                 if(ContadorInventario==0&&ContadorProduccion==0&&ContadorIncial==0){
                     ValidarHilo3=false;
                     HiloEmpaquetado.stop();
@@ -304,7 +308,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
             int y=40;
             while(ValidarHilo4){ 
                 try {
-                    Thread.sleep(TiempoSalida);
+                    Thread.sleep(TiempoSalida*1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SimulacionJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -318,7 +322,8 @@ public class SimulacionJFrame extends javax.swing.JFrame {
                 contadorSalidaLBL.setText(String.valueOf(ContadorSalida));     
                 decEmpaquetado();
                 DespintarCiculo Circulo = new DespintarCiculo(Panel2.getGraphics(),x,y);
-                contadorEmpaquetadoLBL.setText(String.valueOf(ContadorEmpaquetado)); 
+                contadorEmpaquetadoLBL.setText(String.valueOf(ContadorEmpaquetado));
+                CambioTiempoSalida();
                 if(ContadorInventario==0&&ContadorProduccion==0&&ContadorEmpaquetado==0&&ContadorIncial==0){
                     ValidarHilo4=false;
                     HiloSalida.stop();
@@ -344,7 +349,7 @@ public class SimulacionJFrame extends javax.swing.JFrame {
             //Tiempo Para Pasar de Salida a Final
             while(ValidarHilo5){ 
                 try {
-                    Thread.sleep(TiempoFinal);
+                    Thread.sleep(TiempoFinal*1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SimulacionJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -357,7 +362,8 @@ public class SimulacionJFrame extends javax.swing.JFrame {
                 }
                 decSalida();
                 DespintarCiculo Circulo = new DespintarCiculo(Panel2.getGraphics(),x,y);
-                contadorSalidaLBL.setText(String.valueOf(ContadorSalida)); 
+                contadorSalidaLBL.setText(String.valueOf(ContadorSalida));
+                CambioTiempoFinal();
                 if(ContadorInventario==0&&ContadorProduccion==0&&ContadorEmpaquetado==0&&ContadorSalida==0&&ContadorIncial==0){
                     ValidarHilo5=false;
                     HiloFinal.stop();
@@ -387,6 +393,21 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         //RETORNO
         return codigo;
     }
+    public synchronized void CambioTiempoEmpaquetado(){
+        if (TiempoEmpaquetado==AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()){
+            TiempoEmpaquetado=AppState.listaTiempo.get(0).getInventario();
+        }
+    }
+    public synchronized void CambioTiempoSalida(){
+        if (TiempoSalida==AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()+AppState.listaTiempo.get(0).getEmpaquetado()){
+            TiempoSalida=AppState.listaTiempo.get(0).getInventario();
+        }
+    }
+    public synchronized void CambioTiempoFinal(){
+        if (TiempoFinal==AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()+AppState.listaTiempo.get(0).getEmpaquetado()+AppState.listaTiempo.get(0).getSalida()){
+            TiempoFinal=AppState.listaTiempo.get(0).getInventario();
+        }
+    }
     public SimulacionJFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -399,10 +420,10 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         TiempoFinal=0;
         ContadorIncial=30;
         
-        TiempoProduccion=(AppState.listaTiempo.get(0).getInventario()*1000);
-        TiempoEmpaquetado=((AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion())*1000);
-        TiempoSalida=((AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()+AppState.listaTiempo.get(0).getEmpaquetado())*1000);
-        TiempoFinal=((AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()+AppState.listaTiempo.get(0).getEmpaquetado()+AppState.listaTiempo.get(0).getSalida())*1000);
+        TiempoProduccion=(AppState.listaTiempo.get(0).getInventario());
+        TiempoEmpaquetado=((AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()));
+        TiempoSalida=((AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()+AppState.listaTiempo.get(0).getEmpaquetado()));
+        TiempoFinal=((AppState.listaTiempo.get(0).getInventario()+AppState.listaTiempo.get(0).getProduccion()+AppState.listaTiempo.get(0).getEmpaquetado()+AppState.listaTiempo.get(0).getSalida()));
         
         jButton1.setVisible(false);
         jButton2.setVisible(false);
