@@ -220,7 +220,6 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         @Override
         public void run() {
             int x=6; int y=40;
-            //Tiempo Para Pasar de Inventario a Produccion  
             while(ValidarHilo2){ 
                 try {
                     Thread.sleep(TiempoProduccion*1000);
@@ -258,7 +257,6 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         public void run() {
             int x=6;
             int y=40;
-            //Tiempo Para Pasar de Produccion a Empaquetado
             while(ValidarHilo3){ 
                 try {
                     Thread.sleep(TiempoEmpaquetado*1000);
@@ -298,7 +296,6 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         }
         @Override
         public void run() {
-            //Tiempo Para Pasar de Empaquetado a Salida
             int x=6;
             int y=40;
             while(ValidarHilo4){ 
@@ -341,7 +338,6 @@ public class SimulacionJFrame extends javax.swing.JFrame {
         public void run() {
             int x=6;
             int y=40;
-            //Tiempo Para Pasar de Salida a Final
             while(ValidarHilo5){ 
                 try {
                     Thread.sleep(TiempoFinal*1000);
